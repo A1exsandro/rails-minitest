@@ -7,13 +7,21 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should get index" do
+    sign_out users(:one)
+
     get posts_url
     assert_response :success
   end
 
-  test "should get new" do
+  test "should get new if signed in" do
     get new_post_url
     assert_response :success
+  end
+
+  test "should not get new if signed in" do
+    sign_out users(:one)
+    get new_post_url
+    assert_response :redirect
   end
 
   test "should create post" do
